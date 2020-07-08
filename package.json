@@ -1,6 +1,6 @@
 {
     "name": "@feihuoliuxing1/react-native-video",
-    "version": "5.1.0",
+    "version": "4.4.5",
     "description": "A <Video /> element for react-native",
     "main": "Video.js",
     "license": "MIT",
