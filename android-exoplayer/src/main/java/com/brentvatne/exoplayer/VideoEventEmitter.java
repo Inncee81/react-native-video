@@ -9,7 +9,6 @@ import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.uimanager.events.RCTEventEmitter;
 import com.google.android.exoplayer2.metadata.Metadata;
-import com.google.android.exoplayer2.metadata.emsg.EventMessage;
 import com.google.android.exoplayer2.metadata.id3.Id3Frame;
 import com.google.android.exoplayer2.metadata.id3.TextInformationFrame;
 
@@ -249,38 +248,25 @@ class VideoEventEmitter {
         WritableArray metadataArray = Arguments.createArray();
 
         for (int i = 0; i < metadata.length(); i++) {
-            
-            Metadata.Entry entry = metadata.get(i);
 
-            if (entry instanceof Id3Frame) {
 
-                Id3Frame frame = (Id3Frame) entry;
+            Id3Frame frame = (Id3Frame) metadata.get(i);
 
-                String value = "";
+            String value = "";
 
-                if (frame instanceof TextInformationFrame) {
-                    TextInformationFrame txxxFrame = (TextInformationFrame) frame;
-                    value = txxxFrame.value;
-                }
-
-                String identifier = frame.id;
-
-                WritableMap map = Arguments.createMap();
-                map.putString("identifier", identifier);
-                map.putString("value", value);
-
-                metadataArray.pushMap(map);
-                
-            } else if (entry instanceof EventMessage) {
-                
-                EventMessage eventMessage = (EventMessage) entry;
-                
-                WritableMap map = Arguments.createMap();
-                map.putString("identifier", eventMessage.schemeIdUri);
-                map.putString("value", eventMessage.value);
-                metadataArray.pushMap(map);
-                
+            if (frame instanceof TextInformationFrame) {
+                TextInformationFrame txxxFrame = (TextInformationFrame) frame;
+                value = txxxFrame.value;
             }
+
+            String identifier = frame.id;
+
+            WritableMap map = Arguments.createMap();
+            map.putString("identifier", identifier);
+            map.putString("value", value);
+
+            metadataArray.pushMap(map);
+
         }
 
         WritableMap event = Arguments.createMap();
